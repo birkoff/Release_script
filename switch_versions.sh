@@ -49,12 +49,12 @@ fi
 
 echo " "
 echo " "
-printf "Cluster name (...): "
+printf "Cluster name (PRODUCTION, QA, DEV): "
 read CLUSTER
 
 if [ -z $CLUSTER ]; then
 
-  printf "Machines (...): "
+  printf "Machines (app_prod_1,app_prod_2,app_prod_3): "
   read $MACHINES
   if [ -z $MACHINES ]; then
       echo "Exiting on user Command"
