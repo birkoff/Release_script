@@ -6,7 +6,9 @@
 
 typeset -A CLUSTERS
 
-
+CLUSTERS["PRODUCTION"]="app_prod_1,app_prod_2,app_prod_3";
+CLUSTERS["QA"]="app_qa_1,app_qa_2,app_qa_3";
+CLUSTERS["DEV"]="app_dev_1,app_dev_2,app_dev_3";
 
 ########### Tag Version ################
 echo " "
