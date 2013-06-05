@@ -46,7 +46,7 @@ if [ "$action" == "r" ]; then
     read tagrelease
 
     if [ "$tagrelease" == "y" ]; then
-      svn copy -m "Tagging the $tag release of the 'Travolta'" http://svn.example.com/projects/myproject/trunk http://svn.example.com/projects/myproject/tags/v$tag
+      svn copy -m "Tagging the $tag release of the 'myproject'" http://svn.example.com/projects/myproject/trunk http://svn.example.com/projects/myproject/tags/v$tag
       echo " "
       echo "Taging the release..."
       echo "svn copy -m \"Tagging the $tag release of the 'Travolta'\" http://svn.example.com/projects/myproject/trunk http://svn.example.com/projects/myproject/tags/v$tag" 
