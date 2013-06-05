@@ -1,27 +1,10 @@
 #!/bin/bash
-## Created by Hector Reyes Aleman 2012
-## before run: execute ec2up (script to give permissions to clear the cache in each instance)
-## to run: ./swich_version.sh -tag 3_1_22 -prev 3_1_21 -remote /media/volume/temp  -machines dave,stage,patrick,dan
-## do I need to explain this? if yes(sorry I won't) if not(great)
+## Created by Hector Reyes Aleman
 
-typeset -A CLUSTERS
 
-CLUSTERS["PRODUCTION"]="app_prod_1,app_prod_2,app_prod_3";
-CLUSTERS["QA"]="app_qa_1,app_qa_2,app_qa_3";
-CLUSTERS["DEV"]="app_dev_1,app_dev_2,app_dev_3";
+source $(dirname $0)/includes/clusters.sh
 
-########### Tag Version ################
-echo " "
-echo "List of Files in (/home/user/releases/)....."
-echo " "
-ls /home/user/releases/
-printf "Tag version ex. 3_1_21 Please DO NOT include the v: "
-read tag
-
-if [ -z $tag ]; then
-    echo "Exiting on user Command"
-    exit
-fi
+source $(dirname $0)/includes/list_tag_versions.sh
 
 ########### previous Tag Version ################
 echo " "
@@ -38,31 +21,10 @@ fi
 
 
 ############ Remote Path #############                                                                          
-echo ""
-echo " "
-printf "Remote Path [/home/user/versions]: "
-read DEST_PATH
 
-if [ -z $DEST_PATH ]; then
-    DEST_PATH=/home/user/versions
-fi
+source $(dirname $0)/includes/set_remote_path.sh
 
-echo " "
-echo " "
-printf "Cluster name (PRODUCTION, QA, DEV): "
-read CLUSTER
-
-if [ -z $CLUSTER ]; then
-
-  printf "Machines (app_prod_1,app_prod_2,app_prod_3): "
-  read $MACHINES
-  if [ -z $MACHINES ]; then
-      echo "Exiting on user Command"
-      exit
-  fi
-else
-  MACHINES=${CLUSTERS[${CLUSTER}]}
-fi
+source $(dirname $0)/includes/set_cluster.sh
 
 echo " "
 echo " "
@@ -82,9 +44,10 @@ fi
 
 for m in $(echo $MACHINES | sed -n 1'p' | tr ',' '\n')
 do
-  ssh $m "cd $DEST_PATH; rm -f live; ln -s v$tag live; rm -f previous; ln -s v$previous previous; rm next; \
-          cd /var/www/cache/; rm -f *.css *.js *.nrcgz;
-
+  ssh $m "cd $DEST_PATH; rm -f live; ln -sv v$tag live; rm -f previous; ln -sv v$previous previous; rm next; \
+          cd /var/www/cache/; rm -f *.css *.js *.nrcgz; \
+     
   ssh $m "/etc/init.d/apachectl restart"
   echo "/etc/init.d/apachectl restart"
 done
+                                                            
