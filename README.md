@@ -20,6 +20,9 @@ Created by Hector Reyes Aleman - 2012
   ./swich_versions.sh (switches the versions from live to past and next to live)
 
  ######################################################################
+ 
+ ./add_settings.sh => Will as for common settings like "debugg = true" and for a path n remothe instance, 
+                      then it will apply the setting in a particular section of the file
 
     Default values for:
       -local /home/nimbit/releases/v$tag
